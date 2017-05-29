@@ -87,7 +87,7 @@ class kodi(object):
 	def get_active(self):
 		return self.call_api("Player.GetActivePlayers").get('result', [])
 
-	def play(self, ):
+	def play(self):
 		if len(self.params) < 1:
 			self.response_message = "Specify something to play"
 			return
@@ -186,6 +186,9 @@ class kodi(object):
 		self.response_message += "To control playback use %s stop, %s pause or %s restart. " %(self.keyword, self.keyword, self.keyword)
 		self.response_message += "You can also use %s next or %s previous to change track when playing an album." %(self.keyword, self.keyword)
 
+	def fallback(self):
+		self.response_message = "Unknown command, try %s help" %(self.keyword)
+
 
 def main(config_file, keyword, params):
 	if len(params) < 1:
@@ -193,14 +196,8 @@ def main(config_file, keyword, params):
 	k = kodi(config_file, keyword, params[1:])
 	if not k.have_server():
 		return "You need to edit %s to configure the kodi script." %(os.path.basename(config_file))
-	commands = { 'help':k.give_help, 'play':k.play, 'stop':k.stop,
-		'pause':k.pause, 'restart':k.restart,
-		'mute':k.mute, 'unmute':k.unmute,
-		'previous':k.play_previous, 'next':k.play_next }
-	func = commands.get(params[0].lower(), None)
-	if not func:
-		return "Unknown command, try %s help" %(keyword)
-	func()
+	{ 'help':k.give_help, 'play':k.play, 'stop':k.stop, 'pause':k.pause, 'restart':k.restart,
+	  'mute':k.mute, 'unmute':k.unmute, 'previous':k.play_previous, 'next':k.play_next }.get(params[0].lower(), k.fallback)()
 	return k.get_response()
 
 
