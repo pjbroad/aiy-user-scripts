@@ -62,8 +62,9 @@ class pi_sensors(object):
         self.room = None
         self.sensor = None
         config = get_config()
-        if len(config.get("url", "")) and config.get("rooms", []) and config.get("sensors", []):
-            self.config = get_config()
+        if config is not None and len(config.get("url", "")) and \
+                config.get("rooms", []) and config.get("sensors", []):
+            self.config = config
         else:
             self.config = None
             return
