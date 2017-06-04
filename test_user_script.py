@@ -16,15 +16,16 @@
 
 import sys
 import json
-import os
 
 if __name__ == "__main__":
 
-	if len(sys.argv) < 2:
-		info = {
-			"description": "A test user script.", 
-			"keywords": [ "cabbage" ],
-		}
-		print(json.dumps(info, separators=(',',':'), indent=4))
-		sys.exit(0)
-	print("This is a user script test, I was called with these words: %s." %(' '.join(sys.argv[1:])))
+    if len(sys.argv) < 2:
+        info = {
+            "description": "A test user script.",
+            "keywords": ["cabbage"],
+        }
+        print(json.dumps(info, separators=(',', ':'), indent=4))
+    else:
+        print(
+            "This is a user script test, I was called with these words: %s."
+            % (' '.join(sys.argv[1:])))
