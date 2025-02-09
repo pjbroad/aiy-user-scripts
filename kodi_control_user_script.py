@@ -30,7 +30,7 @@ class kodi(object):
         if os.path.isfile(config_file):
             try:
                 self.config = json.load(open(config_file))
-            except Exception, e:
+            except Exception as e:
                 self.error_message = "Config read error: %s" % (str(e))
                 self.config = {"debug": False}
         else:
@@ -64,7 +64,7 @@ class kodi(object):
             self.error_message = "Request failed to connect"
         except requests.exceptions.Timeout:
             self.error_message = "Request timed out"
-        except Exception, e:
+        except Exception as e:
             self.error_message = "Unknown request failed: %s" % (str(e))
         else:
             if not r.status_code == 200:
